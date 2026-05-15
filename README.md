@@ -3,6 +3,15 @@
 [![homebridge-lightwaverf](https://badgen.net/npm/v/homebridge-lightwaverf?icon=npm)](https://www.npmjs.com/package/homebridge-lightwaverf)
 [![homebridge-lightwaverf](https://badgen.net/npm/dt/homebridge-lightwaverf?icon=npm)](https://www.npmjs.com/package/homebridge-lightwaverf)
 
+# homebridge-lightwaverf
+
+⚠️ This plugin is no longer maintained.
+
+I no longer own LightwaveRF hardware and cannot test or support the plugin.
+
+The repository is archived and no further updates are planned.
+
+Users are encouraged to fork the project if continued maintenance is desired.
 
 LightWaveRF plugin for homebridge: https://github.com/nfarina/homebridge
 Note: This plugin communicates with the KlikAanKlikUit ICS-1000 or Lightwave Link
