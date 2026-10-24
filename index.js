@@ -27,37 +27,39 @@
 var lightwaverf = require("./lib/lightwaverf.js");
 var fs = require('fs');
 var path = require('path');
-var inherits = require('util').inherits;
 
 var Service, Characteristic, BrightnessUpCharacteristic, BrightnessDownCharacteristic;
 
 module.exports = function(homebridge) {
- 
+
   Service = homebridge.hap.Service;
   Characteristic = homebridge.hap.Characteristic;
-    
-  BrightnessUpCharacteristic = function () {
-    Characteristic.call(this, 'Up', '212131F4-2E14-4FF4-AE13-C97C4232499E');
-    this.setProps({
-        format: Characteristic.Formats.BOOL,
-        perms: [Characteristic.Perms.READ, Characteristic.Perms.WRITE, Characteristic.Perms.NOTIFY]
-    });
-    //this.eventEnabled = true;
-    this.value = this.getDefaultValue();
+  var Formats = homebridge.hap.Formats;
+  var Perms = homebridge.hap.Perms;
+
+  // HAP-NodeJS characteristics are ES classes, so custom ones must extend them
+  BrightnessUpCharacteristic = class extends Characteristic {
+    constructor() {
+      super('Up', BrightnessUpCharacteristic.UUID, {
+        format: Formats.BOOL,
+        perms: [Perms.PAIRED_READ, Perms.PAIRED_WRITE, Perms.NOTIFY]
+      });
+      this.value = this.getDefaultValue();
+    }
   };
-  inherits(BrightnessUpCharacteristic, Characteristic);
-    
-  BrightnessDownCharacteristic = function () {
-    Characteristic.call(this, 'Down', '212131F4-2E14-4FF4-AE13-C97C5232499E');
-    this.setProps({
-        format: Characteristic.Formats.BOOL,
-        perms: [Characteristic.Perms.READ, Characteristic.Perms.WRITE, Characteristic.Perms.NOTIFY]
-    });
-    //this.eventEnabled = true;
-    this.value = this.getDefaultValue();
+  BrightnessUpCharacteristic.UUID = '212131F4-2E14-4FF4-AE13-C97C4232499E';
+
+  BrightnessDownCharacteristic = class extends Characteristic {
+    constructor() {
+      super('Down', BrightnessDownCharacteristic.UUID, {
+        format: Formats.BOOL,
+        perms: [Perms.PAIRED_READ, Perms.PAIRED_WRITE, Perms.NOTIFY]
+      });
+      this.value = this.getDefaultValue();
+    }
   };
-  inherits(BrightnessDownCharacteristic, Characteristic);
-  
+  BrightnessDownCharacteristic.UUID = '212131F4-2E14-4FF4-AE13-C97C5232499E';
+
   homebridge.registerPlatform("homebridge-lightwaverf", "LightWaveRF", LightWaveRFPlatform);
 }
 
@@ -282,7 +284,7 @@ LightWaveRFAccessory.prototype = {
         // Only write when change is larger than 5
         this.status = value;
         //if((value % 5) == 0) {
-            if(value > 0 && this.lightbulbService && !this.lightbulbService.getCharacteristic(Characteristic.On).getValue(null)) {
+            if(value > 0 && this.lightbulbService && !this.lightbulbService.getCharacteristic(Characteristic.On).value) {
                 this.lightbulbService.getCharacteristic(Characteristic.On).setValue(true);
             }
             this.api.setDeviceDim(this.roomId,this.deviceId,value,callback);
@@ -585,7 +587,7 @@ LightWaveRFAccessory.prototype = {
 		.setCharacteristic(Characteristic.Manufacturer, "LightWaveRF")
 		.setCharacteristic(Characteristic.Model, "ICS-1000")
 		.setCharacteristic(Characteristic.SerialNumber, "A1S2NASF88EW" + this.roomId + this.deviceId)//this.device.uniqueid)
-		.addCharacteristic(Characteristic.FirmwareRevision, "0.0.1");
+		.setCharacteristic(Characteristic.FirmwareRevision, "0.0.1");
 
     if(this.lightbulbService) return [informationService, this.lightbulbService];
     else if(this.switchService) return [informationService, this.switchService];

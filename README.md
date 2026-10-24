@@ -13,6 +13,8 @@ The repository is archived and no further updates are planned.
 
 Users are encouraged to fork the project if continued maintenance is desired.
 
+**Fork note:** this fork (gallowaycj/homebridge-lightwaverf, v0.5.0+) has been updated to work with Homebridge 2.x and Node 20/22/24. Install with `npm install github:gallowaycj/homebridge-lightwaverf`.
+
 LightWaveRF plugin for homebridge: https://github.com/nfarina/homebridge
 Note: This plugin communicates with the KlikAanKlikUit ICS-1000 or Lightwave Link
 Set the correct manager_host in the configuration:
