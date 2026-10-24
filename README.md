@@ -103,6 +103,21 @@ The following devices are supported:
 - GarageDoor: "deviceType": "G"
 - WindowCovering: "deviceType": "WC" 
 
+# Running alongside Home Assistant (or other LightwaveRF software)
+
+The link sends its responses to UDP port 9761 on the host that issued the command, and only one
+program on a host can reliably receive them. If Home Assistant's `lightwave` integration (or any
+other LightwaveRF software) runs on the same host, for example both in Docker with `network_mode: host`,
+add this to the platform configuration:
+
+```
+"listen_for_responses": false
+```
+
+Homebridge then leaves port 9761 to the other software and treats a command as done once it has been sent.
+Both share one registration on the link, because the link sees the same host.
+If the port turns out to be in use anyway, the plugin logs a warning and behaves the same way.
+
 # How to Determine Room Number:
 
 Log in to Manager.LightwaveRF.com

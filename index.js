@@ -72,6 +72,7 @@ function LightWaveRFPlatform(log, config) {
   this.pin = config["pin"];
     
   this.timeout = config["timeout"] || 1000;
+  this.listen = config["listen_for_responses"] !== false;
     
   this.devices = config["devices"];
     
@@ -130,7 +131,7 @@ LightWaveRFPlatform.prototype = {
       // use website
       if(that.email && that.pin && that.pin != "") {
           
-          var api = new lightwaverf({ip:that.ip_address,email:that.email,pin:that.pin,host:that.host,host_path:that.host_path,timeout:that.timeout}, that.log, function(devices) {
+          var api = new lightwaverf({ip:that.ip_address,email:that.email,pin:that.pin,host:that.host,host_path:that.host_path,timeout:that.timeout,listen:that.listen}, that.log, function(devices) {
                                     
               // Add config for devices
               if(that.devices) {
@@ -180,7 +181,7 @@ LightWaveRFPlatform.prototype = {
       else {
           // Use config for devices
           if(that.devices) {
-              var api = new lightwaverf({ip:that.ip_address}, that.log);
+              var api = new lightwaverf({ip:that.ip_address,timeout:that.timeout,listen:that.listen}, that.log);
               
               for(var i=0;i<that.devices.length;++i) {
                   var device = that.devices[i];

@@ -39,6 +39,13 @@
           "default": "",
           "required": false
       },
+      "listen_for_responses": {
+          "title": "Listen for responses",
+          "description": "Listen on UDP port 9761 for responses from the link. Disable when other software on the same host (e.g. Home Assistant) also controls the link.",
+          "type": "boolean",
+          "default": true,
+          "required": false
+      },
       "devices": {
                   "title": "Devices",
                   "description": "When not using a login to obtain devices or when needed to override device properties, you can specify it here",
