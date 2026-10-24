@@ -1,0 +1,8 @@
+node_modules/
+npm-debug.log*
+*.tgz
+.env
+.DS_Store
+
+# Local homelab notes
+info.md
